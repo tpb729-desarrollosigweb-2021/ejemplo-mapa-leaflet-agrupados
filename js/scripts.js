@@ -17,6 +17,13 @@ var capas_base = {
 };	    
 
 
+// Ícono personalizado para carnivoros
+const iconoCarnivoro = L.divIcon({
+  html: '<i class="fas fa-cat fa-2x"></i>',
+  className: 'estiloIconos'
+});
+
+
 // Control de capas
 control_capas = L.control.layers(capas_base).addTo(mapa);	
 
@@ -25,7 +32,7 @@ control_capas = L.control.layers(capas_base).addTo(mapa);
 L.control.scale().addTo(mapa);
 	    
 
-// Capa vectorial de registros agruoados de carnívoros
+// Capa vectorial de registros agrupados de carnívoros
 $.getJSON("https://tpb729-desarrollosigweb-2021.github.io/datos/gbif/carnivora-cr-wgs84.geojson", function(geodata) {
   // Registros individuales
   var capa_carnivora = L.geoJson(geodata, {
@@ -35,11 +42,14 @@ $.getJSON("https://tpb729-desarrollosigweb-2021.github.io/datos/gbif/carnivora-c
     onEachFeature: function(feature, layer) {
       var popupText = "<strong>Especie</strong>: " + feature.properties.species + "<br>" + "<strong>Localidad</strong>: " + feature.properties.locality + "<br>" + "<strong>Fecha</strong>: " + feature.properties.eventDate;
       layer.bindPopup(popupText);
-    }			
+    },
+    pointToLayer: function(getJsonPoint, latlng) {
+        return L.marker(latlng, {icon: iconoCarnivoro});
+    }
   });
 
   // Capa de puntos agrupados
-  var capa_carnivora_agrupados = L.markerClusterGroup();
+  var capa_carnivora_agrupados = L.markerClusterGroup({spiderfyOnMaxZoom: true});
   capa_carnivora_agrupados.addLayer(capa_carnivora);
 
   // Se añade la capa al mapa y al control de capas
