@@ -1,5 +1,5 @@
 // Mapa Leaflet
-var mapa = L.map('mapid').setView([9.9, -84.10], 8);
+var mapa = L.map('mapid').setView([9.5, -84.10], 8);
 
 
 // Definición de capas base
@@ -40,7 +40,12 @@ $.getJSON("https://tpb729-desarrollosigweb-2021.github.io/datos/gbif/carnivora-c
 	  return {'color': "#013220", 'weight': 3}
     },
     onEachFeature: function(feature, layer) {
-      var popupText = "<strong>Especie</strong>: " + feature.properties.species + "<br>" + "<strong>Localidad</strong>: " + feature.properties.locality + "<br>" + "<strong>Fecha</strong>: " + feature.properties.eventDate;
+      var popupText = "<strong>Especie</strong>: " + feature.properties.species + "<br>" + 
+                      "<strong>Localidad</strong>: " + feature.properties.locality + "<br>" + 
+                      "<strong>Fecha</strong>: " + feature.properties.eventDate + "<br>" + 
+                      "<strong>Institución</strong>: " + feature.properties.institutionCode + "<br>" + 
+                      "<br>" +
+                      "<a href='" + feature.properties.occurrenceID + "'>Más información</a>";
       layer.bindPopup(popupText);
     },
     pointToLayer: function(getJsonPoint, latlng) {

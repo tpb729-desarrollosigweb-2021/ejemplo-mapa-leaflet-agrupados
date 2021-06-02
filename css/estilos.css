@@ -1,6 +1,6 @@
-#mapid { 
-  height: 700px;
-  width: 700px;
+html, body, #mapid { 
+  height: 100%;
+  width: 100%;
 }
 
 .estiloIconos {
